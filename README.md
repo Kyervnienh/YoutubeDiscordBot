@@ -17,7 +17,7 @@ Paqueterías utilizadas:
 Para hacer uso localmente del bot descarga este repositorio, puedes descargarlo ejecutando el siguiente comando en la terminal estando en la carpeta donde se usará:
 
 ```
-git clone
+git clone https://github.com/Kyervnienh/YoutubeDiscordBot.git
 ```
 
 o puedes descargarlo manualmente, pulsa el botón "<> Code" seguido de "Download ZIP", una vez descargado descomprime los archivos en la carpeta donde se usará.
@@ -123,4 +123,4 @@ Ahora todo lo que resta por hacer es ir a discord y escribir /yplay `{query}`
 
 `query`: link o busqueda de Youtube.
 
-Para detener el bot ve a la terminal donde se está ejecutando el pulsa "ctrl+c"
+Para detener el bot ve a la terminal donde se está ejecutando y pulsa "ctrl+c"
