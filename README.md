@@ -4,13 +4,18 @@ Bot de discord para reproducir audio de youtube en un canal de voz, unicamente p
 
 Comandos:
 
+- `/yhelp`: Muestra la lista de comandos.
+- `/ypause`: Pausa la reproducción.
 - `/yplay`: Reproduce un video de Youtube. Acepta un link o busqueda por palabras.
+- `/yqueue`: Muestra la lista de reproducción.
+- `/yresume`: Reanuda la reproducción.
+- `/ystop`: Detiene la reproducción y sale del canal de voz.
 
 Paqueterías utilizadas:
 
-- [googleapis](https://github.com/googleapis/google-api-nodejs-client): API de google
-- [discord.js](https://discord.js.org): Librería para interactuar con API de discord
-- [play-dl](https://github.com/play-dl/play-dl): Librearía para streamear contenido de Youtube, Spotify y SoundCloud
+- [discord.js](https://discord.js.org): Librería para interactuar con API de discord.
+- [googleapis](https://github.com/googleapis/google-api-nodejs-client): API de google.
+- [play-dl](https://github.com/play-dl/play-dl): Librería para streamear contenido de Youtube, Spotify y SoundCloud.
 
 ## Descarga
 
@@ -60,28 +65,28 @@ Para que el bot funcione correctamente debemos colocar las credenciales correcta
 
 Clona el archivo `.env.example` y cambia el nombre a `.env`. Dentro encontraremos las siguientes variables:
 
-1. DISCORD_CLIENT_ID
+# 1. DISCORD_CLIENT_ID
 
 Para obtener esta variable ve [aqui](https://discord.com/developers/applications) (inicia sesión si es necesario) y dale al botón de "New Application", coloca el nombre que le darás al bot (asegurate de tener un nombre único o puede salir un error en pasos posteriores) , acepta términos y da click a "Create". Una vez creado se abrirá una pantalla con el titulo "General information", busca "APPLICATION ID", click a copiar y lo reemplazas en el archivo `.env`.
 
-2. DISCORD_TOKEN
+### 2. DISCORD_TOKEN
 
 Para obtener el token ve a la sección "Bot" en la parte izquierda de la pantalla, se abrirá una nueva pantalla pulsa "Add Bot", una vez añadido se mostrará la información del bot, en donde dice "TOKEN" da click a "copiar" y reemplazalo en el archivo `.env`
 
-3. DISCORD_GUILD_ID
+### 3. DISCORD_GUILD_ID
 
 - Para obtenerlo ve a discord > configuración > avanzado y activa el modo desarrollador.
 - Ve al servidor en donde estará el bot, pulsa click derecho en donde dice el nombre del servidor, click a "Copiar ID" y reemplazalo en el archivo `.env`
 
-4. DISCORD_VOICE_CHANNEL_ID
+### 4. DISCORD_VOICE_CHANNEL_ID
 
 Para obtenerlo da click derecho sobre el canal de voz al que se unirá el bot, pulsa "Copiar ID" y reemplazalo en el archivo `.env`
 
-5. USE_YOUTUBE_API
+### 5. USE_YOUTUBE_API
 
 Esta variable indica si se usará la API de Google para buscar videos en Youtube, coloca "true" si utilizarás la API de Google o "false" si usarás la busqueda de "play-dl".
 
-6. YOUTUBE_API_KEY
+### 6. YOUTUBE_API_KEY
 
 Reemplazala solo si `USE_YOUTUBE_API=true`.
 

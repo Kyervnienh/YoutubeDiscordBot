@@ -46,6 +46,7 @@ const handlePlayAudio = async ({
   });
 
   player.play(resource);
+  player.metadata = { queue: [yt_info] };
 
   // Create connection
   const connection = joinVoiceChannel({
@@ -54,9 +55,9 @@ const handlePlayAudio = async ({
     adapterCreator: voiceChannel.guild.voiceAdapterCreator,
   });
 
-  const msg = `playing: ${streamUrl}, duration: ${
+  const msg = `Reproduciendo: ${streamUrl}, duración: ${
     yt_info?.video_details?.durationInSec || yt_info.durationInSec
-  } sec.`;
+  } sec. Nyan~`;
   console.log("succeed ".concat(msg));
 
   interaction.reply(msg);
@@ -67,11 +68,11 @@ const handlePlayAudio = async ({
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("yplay")
-    .setDescription("Reproduce un video de YouTube.")
+    .setDescription("Reproduce un video de YouTube. Nyan~")
     .addStringOption((option) =>
       option
         .setName("query")
-        .setDescription("Término de búsqueda.")
+        .setDescription("Término de búsqueda. Nyan~")
         .setRequired(true)
     ),
   async execute(interaction) {
@@ -104,11 +105,11 @@ module.exports = {
       (err, response) => {
         if (err) {
           console.error(err);
-          return interaction.reply("Ocurrió un error al buscar el video.");
+          return interaction.reply("Ocurrió un error al buscar el video. :(");
         }
 
         const videoId = response?.data?.items[0]?.id?.videoId;
-        if (!videoId) return interaction.reply("No se encontró el video.");
+        if (!videoId) return interaction.reply("No se encontró el video. :(");
 
         const streamUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
