@@ -17,21 +17,26 @@ module.exports = {
               value: "Reproduce un video de YouTube. Nyan~",
             },
             {
-              name: "/yqueue",
-              value: "Muestra la lista de reproducción. Nyan~",
+              name: "/ypause",
+              value: "Pausa la canción actual si está reproduciéndose. Nyan~",
             },
             {
               name: "/yresume",
               value: "Reanuda la canción actual si está pausada. Nyan~",
             },
             {
-              name: "/ypause",
-              value: "Pausa la canción actual si está reproduciéndose. Nyan~",
+              name: "/ynext",
+              value: "Reproduce el siguiente video en la cola. Nyan~",
             },
             {
               name: "/ystop",
               value: "Detiene la canción actual y sale del canal de voz. Nyan~",
             },
+            {
+              name: "/yqueue",
+              value: "Muestra la lista de reproducción. Nyan~",
+            },
+            x,
           ],
         },
       ],

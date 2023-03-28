@@ -1,69 +1,9 @@
 require("dotenv").config();
 const { SlashCommandBuilder } = require("discord.js");
-const {
-  createAudioPlayer,
-  createAudioResource,
-  joinVoiceChannel,
-} = require("@discordjs/voice");
-const play = require("play-dl");
-
 const { google } = require("googleapis");
 const youtube = google.youtube("v3");
 
-const handlePlayAudio = async ({
-  voiceChannelId,
-  voiceChannel,
-  interaction,
-  streamUrl,
-}) => {
-  let stream, yt_info;
-
-  if (process.env.USE_YOUTUBE_API === "true") {
-    yt_info = await play.video_info(streamUrl);
-    stream = await play.stream_from_info(yt_info);
-  } else {
-    const yt_search = await play.search(streamUrl, { limit: 1 });
-    yt_info = yt_search[0];
-    stream = await play.stream(yt_info.url);
-  }
-
-  //Create audio player
-  const player = createAudioPlayer();
-
-  player.on("error", (error) => {
-    console.error(error);
-  });
-
-  player.on("stateChange", (oldState, newState) => {
-    if (newState.status === "idle") {
-      player.stop();
-    }
-  });
-
-  //Create audio resource
-  const resource = createAudioResource(stream.stream, {
-    inputType: stream.type,
-  });
-
-  player.play(resource);
-  player.metadata = { queue: [yt_info] };
-
-  // Create connection
-  const connection = joinVoiceChannel({
-    channelId: voiceChannelId,
-    guildId: process.env.DISCORD_GUILD_ID,
-    adapterCreator: voiceChannel.guild.voiceAdapterCreator,
-  });
-
-  const msg = `Reproduciendo: ${streamUrl}, duración: ${
-    yt_info?.video_details?.durationInSec || yt_info.durationInSec
-  } sec. Nyan~`;
-  console.log("succeed ".concat(msg));
-
-  interaction.reply(msg);
-
-  connection.subscribe(player);
-};
+const { handlePlayAudio, handlePlayResource } = require("../helpers/player");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -74,11 +14,18 @@ module.exports = {
         .setName("query")
         .setDescription("Término de búsqueda. Nyan~")
         .setRequired(true)
+    )
+    .addBooleanOption((option) =>
+      option
+        .setName("autoplay")
+        .setDescription("Reproduce automáticamente el siguiente video. Nyan~")
+        .setRequired(false)
     ),
   async execute(interaction) {
     const voiceChannelId = process.env.DISCORD_VOICE_CHANNEL_ID;
     const voiceChannel = interaction.guild.channels.cache.get(voiceChannelId);
 
+    const autoplay = interaction.options.getBoolean("autoplay");
     const query = interaction.options.getString("query");
 
     if (
@@ -96,11 +43,12 @@ module.exports = {
 
     youtube.search.list(
       {
-        part: "id",
-        type: "video",
-        q: query,
-        maxResults: 1,
         auth: process.env.YOUTUBE_API_KEY,
+        maxResults: 1,
+        part: "id",
+        q: query,
+        type: "video",
+        videoCategoryId: 10,
       },
       (err, response) => {
         if (err) {
@@ -114,10 +62,11 @@ module.exports = {
         const streamUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
         handlePlayAudio({
-          voiceChannelId,
-          voiceChannel,
+          autoplay,
           interaction,
           streamUrl,
+          voiceChannel,
+          voiceChannelId,
         });
       }
     );

@@ -5,8 +5,9 @@ Bot de discord para reproducir audio de youtube en un canal de voz, unicamente p
 Comandos:
 
 - `/yhelp`: Muestra la lista de comandos.
+- `/ynext`: Salta al siguiente video de la lista de reproducción.
 - `/ypause`: Pausa la reproducción.
-- `/yplay`: Reproduce un video de Youtube. Acepta un link o busqueda por palabras.
+- `/yplay {query} {autoplay}`: Reproduce un video de Youtube. Acepta un link o busqueda por palabras.
 - `/yqueue`: Muestra la lista de reproducción.
 - `/yresume`: Reanuda la reproducción.
 - `/ystop`: Detiene la reproducción y sale del canal de voz.
