@@ -36,7 +36,6 @@ module.exports = {
               name: "/yqueue",
               value: "Muestra la lista de reproducción. Nyan~",
             },
-            x,
           ],
         },
       ],
