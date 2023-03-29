@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const { google } = require("googleapis");
 const youtube = google.youtube("v3");
 
-const { handlePlayAudio, handlePlayResource } = require("../helpers/player");
+const { handlePlayAudio } = require("../helpers/player");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,6 +32,7 @@ module.exports = {
       query.includes("youtube.com") ||
       process.env.USE_YOUTUBE_API === "false"
     ) {
+      interaction.reply("Buscando video... Nyan~");
       handlePlayAudio({
         voiceChannelId,
         voiceChannel,
@@ -60,6 +61,8 @@ module.exports = {
         if (!videoId) return interaction.reply("No se encontró el video. :(");
 
         const streamUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+        interaction.reply("Preparando video... Nyan~");
 
         handlePlayAudio({
           autoplay,

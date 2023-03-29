@@ -36,11 +36,11 @@ module.exports = {
       connection.state.subscription.player.stop();
       return;
     }
-
+    interaction.reply("Vamos al siguiente video. Nyan~");
     handlePlayResource({
       autoplay: metadata.autoplay,
+      channel: interaction.guild.channels.cache.get(interaction.channelId),
       followUp: false,
-      interaction,
       player: connection.state.subscription.player,
       streamUrl,
     });

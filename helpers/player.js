@@ -2,6 +2,7 @@ require("dotenv").config();
 const {
   createAudioPlayer,
   createAudioResource,
+  getGroups,
   AudioPlayerStatus,
   joinVoiceChannel,
 } = require("@discordjs/voice");
@@ -14,6 +15,7 @@ const handlePlayAudio = async ({
   interaction,
   streamUrl,
 }) => {
+  const channel = interaction.guild.channels.cache.get(interaction.channelId);
   //Create audio player
   const player = createAudioPlayer();
 
@@ -28,19 +30,19 @@ const handlePlayAudio = async ({
       if (relatedVid?.length)
         handlePlayResource({
           autoplay,
+          channel,
           followUp: true,
-          interaction,
           player,
           streamUrl: getNextRelatedVideo(relatedVid),
         });
       else {
-        interaction.followUp("No hay más videos en la cola. Nyan~");
+        channel.send("No hay más videos en la cola. Nyan~");
         player.stop();
       }
     }
   });
 
-  handlePlayResource({ autoplay, interaction, player, streamUrl });
+  handlePlayResource({ autoplay, channel, player, streamUrl });
 
   // Create connection
   const connection = joinVoiceChannel({
@@ -54,10 +56,10 @@ const handlePlayAudio = async ({
 
 const handlePlayResource = async ({
   autoplay,
+  channel,
+  followUp,
   player,
   streamUrl,
-  followUp,
-  interaction,
 }) => {
   let stream, yt_info;
 
@@ -82,8 +84,7 @@ const handlePlayResource = async ({
     yt_info?.video_details?.durationRaw || yt_info.durationRaw
   }. Nyan~`;
 
-  if (!followUp) await interaction.reply(msg);
-  else await interaction.followUp(msg);
+  channel.send(msg);
 
   console.log("succeed ".concat(msg));
 };
