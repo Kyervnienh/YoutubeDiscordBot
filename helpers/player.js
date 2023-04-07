@@ -59,7 +59,7 @@ const handlePlayAudio = async ({
   const connection = joinVoiceChannel({
     adapterCreator: voiceChannel.guild.voiceAdapterCreator,
     channelId: voiceChannelId,
-    guildId: process.env.DISCORD_GUILD_ID,
+    guildId: interaction.guildId,
   });
 
   connection.subscribe(player);

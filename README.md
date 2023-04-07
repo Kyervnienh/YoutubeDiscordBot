@@ -72,22 +72,13 @@ Para obtener esta variable ve [aqui](https://discord.com/developers/applications
 
 #### 2. DISCORD_TOKEN
 
-Para obtener el token ve a la sección "Bot" en la parte izquierda de la pantalla, se abrirá una nueva pantalla pulsa "Add Bot", una vez añadido se mostrará la información del bot, en donde dice "TOKEN" da click a "copiar" y reemplazalo en el archivo `.env`
+Para obtener el token ve a la sección "Bot" en la parte izquierda de la pantalla, se abrirá una nueva pantalla pulsa "Add Bot", una vez añadido se mostrará la información del bot, en donde dice "TOKEN" da click a "copiar" y reemplazalo en el archivo `.env`.
 
-#### 3. DISCORD_GUILD_ID
-
-- Para obtenerlo ve a discord > configuración > avanzado y activa el modo desarrollador.
-- Ve al servidor en donde estará el bot, pulsa click derecho en donde dice el nombre del servidor, click a "Copiar ID" y reemplazalo en el archivo `.env`
-
-#### 4. DISCORD_VOICE_CHANNEL_ID
-
-Para obtenerlo da click derecho sobre el canal de voz al que se unirá el bot, pulsa "Copiar ID" y reemplazalo en el archivo `.env`
-
-#### 5. USE_YOUTUBE_API
+#### 3. USE_YOUTUBE_API
 
 Esta variable indica si se usará la API de Google para buscar videos en Youtube, coloca "true" si utilizarás la API de Google o "false" si usarás la busqueda de "play-dl".
 
-#### 6. YOUTUBE_API_KEY
+#### 4. YOUTUBE_API_KEY
 
 Reemplazala solo si `USE_YOUTUBE_API=true`.
 

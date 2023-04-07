@@ -22,7 +22,9 @@ module.exports = {
         .setRequired(false),
     ),
   async execute(interaction) {
-    const voiceChannelId = process.env.DISCORD_VOICE_CHANNEL_ID;
+    const voiceChannelId = interaction?.member?.voice?.channelId;
+    if (!voiceChannelId)
+      return interaction.reply('Debes estar en un canal de voz. Nyan~');
     const voiceChannel = interaction.guild.channels.cache.get(voiceChannelId);
 
     const autoplay = interaction.options.getBoolean('autoplay');
