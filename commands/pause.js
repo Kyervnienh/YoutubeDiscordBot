@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { SlashCommandBuilder } = require('discord.js');
 const { getVoiceConnection } = require('@discordjs/voice');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
     );
     if (
       !connection ||
-      connection.joinConfig.channelId != interaction.member.voice.channelId
+      connection.joinConfig.channelId !== interaction.member.voice.channelId
     ) {
       return interaction.reply(
         'No estoy reproduciendo nada en este canal. Nyan~',

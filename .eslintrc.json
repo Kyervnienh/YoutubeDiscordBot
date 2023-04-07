@@ -4,15 +4,26 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["standard", "prettier"],
+  "extends": ["standard", "prettier", "plugin:import/errors"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest"
   },
   "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error",
+    "eqeqeq": "warn",
     "no-unused-vars": "warn",
-    "eqeqeq": "off"
+    "prettier/prettier": "error",
+    "sort-imports": 1,
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "newlines-between": "always"
+      }
+    ]
   }
 }

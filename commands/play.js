@@ -36,10 +36,10 @@ module.exports = {
     ) {
       interaction.reply('Buscando video... Nyan~');
       handlePlayAudio({
-        voiceChannelId,
-        voiceChannel,
         interaction,
         streamUrl: query,
+        voiceChannel,
+        voiceChannelId,
       });
       return;
     }

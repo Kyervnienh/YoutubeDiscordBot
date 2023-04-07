@@ -1,30 +1,42 @@
 require('dotenv').config();
-const { EmbedBuilder } = require('discord.js');
 const {
   AudioPlayerStatus,
   createAudioPlayer,
   createAudioResource,
   joinVoiceChannel,
 } = require('@discordjs/voice');
+const { EmbedBuilder } = require('discord.js');
 const play = require('play-dl');
 
-const getEmbedMessage = ({ title, url, thumbnails, description, channel }) => {
+const getDescription = (description) =>
+  description.length > 100
+    ? description.slice(0, 100).concat('...')
+    : description;
+
+const getEmbedMessage = ({
+  channel,
+  description,
+  thumbnails,
+  title,
+  url,
+} = {}) => {
   const embed = new EmbedBuilder()
-    .setTitle(title)
-    .setURL(url)
-    .setAuthor({ name: channel?.name || 'Nya', iconURL: channel?.icons[0].url })
+    .setAuthor({ iconURL: channel?.icons?.[0]?.url, name: channel?.name })
+    .setColor('#26f0d1')
+    .setDescription(getDescription(description))
     .setThumbnail(thumbnails?.[0]?.url)
-    .setDescription(description?.slice(0, 100).concat('...'));
+    .setTitle(title)
+    .setURL(url);
 
   return embed;
 };
 
 const handlePlayAudio = async ({
   autoplay,
-  voiceChannelId,
-  voiceChannel,
   interaction,
   streamUrl,
+  voiceChannel,
+  voiceChannelId,
 }) => {
   const channel = interaction.guild.channels.cache.get(interaction.channelId);
   // Create audio player
@@ -36,7 +48,7 @@ const handlePlayAudio = async ({
 
   player.on('stateChange', (_, newState) => {
     if (newState.status === AudioPlayerStatus.Idle && autoplay) {
-      const relatedVid = player.metadata.current.related_videos;
+      const relatedVid = player?.metadata?.current?.related_videos;
 
       if (relatedVid?.length) {
         handlePlayResource({
@@ -91,12 +103,12 @@ const handlePlayResource = async ({
   player.play(resource);
   player.metadata = { autoplay, current: ytInfo, queue: [ytInfo] };
 
-  channel.send({ embeds: [getEmbedMessage(ytInfo.video_details)] });
+  channel.send({ embeds: [getEmbedMessage(ytInfo?.video_details || {})] });
 
   console.log('succeed '.concat(streamUrl));
 };
 
 const getNextRelatedVideo = (relatedVid) =>
-  relatedVid[Math.floor(Math.random() * relatedVid.length) || 0];
+  relatedVid[Math.floor((Math.random() * relatedVid?.length) / 2) || 0];
 
 module.exports = { getNextRelatedVideo, handlePlayAudio, handlePlayResource };

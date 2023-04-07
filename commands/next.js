@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { SlashCommandBuilder } = require('discord.js');
 const { getVoiceConnection } = require('@discordjs/voice');
+const { SlashCommandBuilder } = require('discord.js');
 
 const {
   getNextRelatedVideo,
@@ -21,7 +21,7 @@ module.exports = {
     );
     if (
       !connection ||
-      connection.joinConfig.channelId != interaction.member.voice.channelId
+      connection.joinConfig.channelId !== interaction.member.voice.channelId
     ) {
       return interaction.reply(
         'No estoy reproduciendo nada en este canal. Nyan~',
@@ -29,9 +29,9 @@ module.exports = {
     }
 
     const metadata = connection.state.subscription.player.metadata;
-    const streamUrl = metadata.autoplay
-      ? getNextRelatedVideo(metadata.current.related_videos)
-      : metadata.queue[1];
+    const streamUrl = metadata?.autoplay
+      ? getNextRelatedVideo(metadata?.current?.related_videos)
+      : metadata?.queue[1];
 
     if (!streamUrl) {
       interaction.reply('No hay más videos en la cola. Nyan~');
