@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "yarn test",
-    "start": "node index.js"
+    "lint": "eslint .  --ext .js",
+    "lint-fix": "eslint --fix .  --ext .js",
+    "precommit": "npm run lint",
+    "prepare:husky": "husky install && husky add .husky/pre-commit \"npm run precommit\"",
+    "start": "node index.js",
+    "test": "yarn test"
   },
   "author": "Kyerv",
   "license": "ISC",
@@ -15,7 +19,19 @@
     "dotenv": "^10.0.0",
     "ffmpeg-static": "^5.1.0",
     "googleapis": "^114.0.0",
+    "husky": "^5.2.0",
     "libsodium-wrappers": "^0.7.11",
+    "lint-staged": "^13.2.0",
     "play-dl": "^1.9.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "prettier": "^2.8.7"
   }
 }

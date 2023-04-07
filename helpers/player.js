@@ -1,12 +1,23 @@
-require("dotenv").config();
+require('dotenv').config();
+const { EmbedBuilder } = require('discord.js');
 const {
+  AudioPlayerStatus,
   createAudioPlayer,
   createAudioResource,
-  getGroups,
-  AudioPlayerStatus,
   joinVoiceChannel,
-} = require("@discordjs/voice");
-const play = require("play-dl");
+} = require('@discordjs/voice');
+const play = require('play-dl');
+
+const getEmbedMessage = ({ title, url, thumbnails, description, channel }) => {
+  const embed = new EmbedBuilder()
+    .setTitle(title)
+    .setURL(url)
+    .setAuthor({ name: channel?.name || 'Nya', iconURL: channel?.icons[0].url })
+    .setThumbnail(thumbnails?.[0]?.url)
+    .setDescription(description?.slice(0, 100).concat('...'));
+
+  return embed;
+};
 
 const handlePlayAudio = async ({
   autoplay,
@@ -16,18 +27,18 @@ const handlePlayAudio = async ({
   streamUrl,
 }) => {
   const channel = interaction.guild.channels.cache.get(interaction.channelId);
-  //Create audio player
+  // Create audio player
   const player = createAudioPlayer();
 
-  player.on("error", (error) => {
+  player.on('error', (error) => {
     console.error(error);
   });
 
-  player.on("stateChange", (_, newState) => {
+  player.on('stateChange', (_, newState) => {
     if (newState.status === AudioPlayerStatus.Idle && autoplay) {
       const relatedVid = player.metadata.current.related_videos;
 
-      if (relatedVid?.length)
+      if (relatedVid?.length) {
         handlePlayResource({
           autoplay,
           channel,
@@ -35,8 +46,8 @@ const handlePlayAudio = async ({
           player,
           streamUrl: getNextRelatedVideo(relatedVid),
         });
-      else {
-        channel.send("No hay más videos en la cola. Nyan~");
+      } else {
+        channel.send('No hay más videos en la cola. Nyan~');
         player.stop();
       }
     }
@@ -61,32 +72,28 @@ const handlePlayResource = async ({
   player,
   streamUrl,
 }) => {
-  let stream, yt_info;
+  let stream, ytInfo;
 
-  if (process.env.USE_YOUTUBE_API === "true" || followUp) {
-    yt_info = await play.video_info(streamUrl);
-    stream = await play.stream_from_info(yt_info);
+  if (process.env.USE_YOUTUBE_API === 'true' || followUp) {
+    ytInfo = await play.video_info(streamUrl);
+    stream = await play.stream_from_info(ytInfo);
   } else {
-    const yt_search = await play.search(streamUrl, { limit: 1 });
-    yt_info = yt_search[0];
-    stream = await play.stream(yt_info.url);
+    const ytSearch = await play.search(streamUrl, { limit: 1 });
+    ytInfo = ytSearch[0];
+    stream = await play.stream(ytInfo.url);
   }
 
-  //Create audio resource
+  // Create audio resource
   const resource = createAudioResource(stream.stream, {
     inputType: stream.type,
   });
 
   player.play(resource);
-  player.metadata = { autoplay, current: yt_info, queue: [yt_info] };
+  player.metadata = { autoplay, current: ytInfo, queue: [ytInfo] };
 
-  const msg = `Reproduciendo: ${streamUrl}, duración: ${
-    yt_info?.video_details?.durationRaw || yt_info.durationRaw
-  }. Nyan~`;
+  channel.send({ embeds: [getEmbedMessage(ytInfo.video_details)] });
 
-  channel.send(msg);
-
-  console.log("succeed ".concat(msg));
+  console.log('succeed '.concat(streamUrl));
 };
 
 const getNextRelatedVideo = (relatedVid) =>

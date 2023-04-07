@@ -1,38 +1,38 @@
-require("dotenv").config();
-const { SlashCommandBuilder } = require("discord.js");
-const { google } = require("googleapis");
-const youtube = google.youtube("v3");
+require('dotenv').config();
+const { SlashCommandBuilder } = require('discord.js');
+const { google } = require('googleapis');
+const youtube = google.youtube('v3');
 
-const { handlePlayAudio } = require("../helpers/player");
+const { handlePlayAudio } = require('../helpers/player');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("yplay")
-    .setDescription("Reproduce un video de YouTube. Nyan~")
+    .setName('yplay')
+    .setDescription('Reproduce un video de YouTube. Nyan~')
     .addStringOption((option) =>
       option
-        .setName("query")
-        .setDescription("Término de búsqueda. Nyan~")
-        .setRequired(true)
+        .setName('query')
+        .setDescription('Término de búsqueda. Nyan~')
+        .setRequired(true),
     )
     .addBooleanOption((option) =>
       option
-        .setName("autoplay")
-        .setDescription("Reproduce automáticamente el siguiente video. Nyan~")
-        .setRequired(false)
+        .setName('autoplay')
+        .setDescription('Reproduce automáticamente el siguiente video. Nyan~')
+        .setRequired(false),
     ),
   async execute(interaction) {
     const voiceChannelId = process.env.DISCORD_VOICE_CHANNEL_ID;
     const voiceChannel = interaction.guild.channels.cache.get(voiceChannelId);
 
-    const autoplay = interaction.options.getBoolean("autoplay");
-    const query = interaction.options.getString("query");
+    const autoplay = interaction.options.getBoolean('autoplay');
+    const query = interaction.options.getString('query');
 
     if (
-      query.includes("youtube.com") ||
-      process.env.USE_YOUTUBE_API === "false"
+      query.includes('youtube.com') ||
+      process.env.USE_YOUTUBE_API === 'false'
     ) {
-      interaction.reply("Buscando video... Nyan~");
+      interaction.reply('Buscando video... Nyan~');
       handlePlayAudio({
         voiceChannelId,
         voiceChannel,
@@ -46,23 +46,23 @@ module.exports = {
       {
         auth: process.env.YOUTUBE_API_KEY,
         maxResults: 1,
-        part: "id",
+        part: 'id',
         q: query,
-        type: "video",
+        type: 'video',
         videoCategoryId: 10,
       },
       (err, response) => {
         if (err) {
           console.error(err);
-          return interaction.reply("Ocurrió un error al buscar el video. :(");
+          return interaction.reply('Ocurrió un error al buscar el video. :(');
         }
 
         const videoId = response?.data?.items[0]?.id?.videoId;
-        if (!videoId) return interaction.reply("No se encontró el video. :(");
+        if (!videoId) return interaction.reply('No se encontró el video. :(');
 
         const streamUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
-        interaction.reply("Preparando video... Nyan~");
+        interaction.reply('Preparando video... Nyan~');
 
         handlePlayAudio({
           autoplay,
@@ -71,7 +71,7 @@ module.exports = {
           voiceChannel,
           voiceChannelId,
         });
-      }
+      },
     );
   },
 };
