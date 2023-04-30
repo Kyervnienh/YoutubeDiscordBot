@@ -12,9 +12,8 @@ module.exports = {
     .setName('ynext')
     .setDescription('Reproduce el siguiente video en la cola. Nyan~'),
   async execute(interaction) {
-    if (!interaction.member.voice.channelId) {
+    if (!interaction.member.voice.channelId)
       return interaction.reply('No estás en un canal de voz. Nyan~');
-    }
 
     const connection = getVoiceConnection(
       interaction.member.voice.channel.guildId,
@@ -22,11 +21,10 @@ module.exports = {
     if (
       !connection ||
       connection.joinConfig.channelId !== interaction.member.voice.channelId
-    ) {
+    )
       return interaction.reply(
         'No estoy reproduciendo nada en este canal. Nyan~',
       );
-    }
 
     const metadata = connection.state.subscription.player.metadata;
     const streamUrl = metadata?.autoplay

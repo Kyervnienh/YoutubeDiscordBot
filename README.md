@@ -100,10 +100,10 @@ Ve a la sección "OAuth2", en "URL Generator" selecciona "BOT", se desplegará u
 
 ## Encender el bot
 
-Para empezar a usar el bot abre una terminal en la carpeta del proyecto y ejecuta el siguiente comando:
+Para empezar a usar el bot abre una terminal en la carpeta del proyecto y ejecuta uno de los siguientes comandos:
 
 ```
-node deploy-commands.js
+yarn deploy
 ```
 
 Este comando habilitará los comandos existentes en discord. (solo se debe ejecutar la primera vez o cada que se cambie el código del proyecto).

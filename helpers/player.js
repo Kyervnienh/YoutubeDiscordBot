@@ -50,7 +50,7 @@ const handlePlayAudio = async ({
     if (newState.status === AudioPlayerStatus.Idle && autoplay) {
       const relatedVid = player?.metadata?.current?.related_videos;
 
-      if (relatedVid?.length) {
+      if (relatedVid?.length)
         handlePlayResource({
           autoplay,
           channel,
@@ -58,7 +58,7 @@ const handlePlayAudio = async ({
           player,
           streamUrl: getNextRelatedVideo(relatedVid),
         });
-      } else {
+      else {
         channel.send('No hay más videos en la cola. Nyan~');
         player.stop();
       }
