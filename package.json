@@ -1,12 +1,12 @@
 {
-  "name": "discord",
+  "name": "youtube-discord-bot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "deploy": "node deploy-commands.js",
-    "lint": "eslint .  --ext .js",
-    "lint-fix": "eslint --fix .  --ext .js",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
     "precommit": "npm run lint",
     "prepare:husky": "husky install && husky add .husky/pre-commit \"npm run precommit\"",
     "start": "node index.js",
@@ -19,19 +19,16 @@
     "discord.js": "^14.9.0",
     "dotenv": "^10.0.0",
     "googleapis": "^114.0.0",
-    "husky": "^5.2.0",
     "libsodium-wrappers": "^0.7.11",
-    "lint-staged": "^13.2.0",
     "play-dl": "^1.9.6"
   },
   "devDependencies": {
     "eslint": "^8.0.1",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-config-standard": "^17.0.0",
+    "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
-    "prettier": "^2.8.7"
-  }
+    "husky": "^5.2.0"
+  },
+  "repository": "https://github.com/Kyervnienh/YoutubeDiscordBot.git"
 }

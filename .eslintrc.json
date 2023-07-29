@@ -1,29 +1,15 @@
 {
-  "env": {
-    "commonjs": true,
-    "es2021": true,
-    "node": true
-  },
-  "extends": ["standard", "prettier", "plugin:import/errors"],
-  "overrides": [],
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  },
-  "plugins": ["prettier"],
-  "rules": {
-    "eqeqeq": "warn",
-    "no-unused-vars": "warn",
-    "prettier/prettier": "error",
-    "sort-imports": 1,
-    "import/order": [
-      "error",
-      {
-        "alphabetize": {
-          "caseInsensitive": true,
-          "order": "asc"
-        },
-        "newlines-between": "always"
-      }
-    ]
-  }
+    "env": {
+        "commonjs": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": "standard",
+    "overrides": [
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+    }
 }

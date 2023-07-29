@@ -1,10 +1,8 @@
-const fs = require('fs');
+const fs = require('fs')
 
 const getFiles = (path) => {
-  const files = fs.readdirSync(path).filter((file) => file.endsWith('.js'));
-  return files;
-};
+  const files = fs.readdirSync(path).filter((file) => file.endsWith('.js'))
+  return files
+}
 
-module.exports = {
-  getFiles,
-};
+module.exports = { getFiles }
