@@ -84,29 +84,38 @@ const handlePlayResource = async ({
 }) => {
   let stream, ytInfo
 
-  if (process.env.USE_YOUTUBE_API === 'true' || followUp) {
-    ytInfo = await play.video_info(streamUrl)
-    stream = await play.stream_from_info(ytInfo)
-  } else {
-    const ytSearch = await play.search(streamUrl, { limit: 1 })
-    ytInfo = ytSearch[0]
-    stream = await play.stream(ytInfo.url)
+  try {
+    if (process.env.USE_YOUTUBE_API === 'true' || followUp) {
+      ytInfo = await play.video_info(streamUrl)
+
+      stream = await play.stream_from_info(ytInfo)
+    } else {
+      const ytSearch = await play.search(streamUrl, { limit: 1 })
+      ytInfo = ytSearch[0]
+      stream = await play.stream(ytInfo.url)
+    }
+
+    // Create audio resource
+    const resource = createAudioResource(stream.stream, {
+      inputType: stream.type
+    })
+
+    player.play(resource)
+    player.metadata = { autoplay, current: ytInfo, queue: [ytInfo] }
+
+    channel.send({ embeds: [getEmbedMessage(ytInfo?.video_details || {})] })
+
+    console.log('playing: '.concat(streamUrl))
+  } catch (error) {
+    console.error(error)
+    channel.send('No se pudo reproducir el video. Nyan~')
   }
-
-  // Create audio resource
-  const resource = createAudioResource(stream.stream, {
-    inputType: stream.type
-  })
-
-  player.play(resource)
-  player.metadata = { autoplay, current: ytInfo, queue: [ytInfo] }
-
-  channel.send({ embeds: [getEmbedMessage(ytInfo?.video_details || {})] })
-
-  console.log('succeed '.concat(streamUrl))
 }
 
-const getNextRelatedVideo = (relatedVid) =>
-  relatedVid[Math.floor((Math.random() * relatedVid?.length) / 2) || 0]
+const getNextRelatedVideo = (relatedVid) => {
+  if (!relatedVid?.length) return null
+  const randomIndex = Math.floor((Math.random() * relatedVid.length) / 2)
+  return relatedVid[randomIndex]
+}
 
 module.exports = { getNextRelatedVideo, handlePlayAudio, handlePlayResource }

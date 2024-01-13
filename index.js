@@ -20,7 +20,9 @@ const commandFiles = getFiles(commandsPath)
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file)
   const command = require(filePath)
-  if ('data' in command && 'execute' in command) { client.commands.set(command.data.name, command) } else {
+  if ('data' in command && 'execute' in command) {
+    client.commands.set(command.data.name, command)
+  } else {
     console.log(
       `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
     )
@@ -37,6 +39,13 @@ for (const file of eventFiles) {
   if (event.once) client.once(event.name, (...args) => event.execute(...args))
   else client.on(event.name, (...args) => event.execute(...args))
 }
+
+// Log command name and user tag for each command interaction
+client.on('interactionCreate', interaction => {
+  if (!interaction.isCommand()) return
+
+  console.log(`command: ${interaction.commandName}, user: ${interaction.user.tag}`)
+})
 
 // Login
 client.login(process.env.DISCORD_TOKEN)
